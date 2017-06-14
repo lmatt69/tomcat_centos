@@ -6,7 +6,7 @@
 # found at http://inspec.io/docs/reference/resources/
 
 
-describe command 'curl http://localhost:80' do
+describe command 'curl http://localhost:8080' do
   its(:stdout) { should match /Tomcat/ }
 end
 
@@ -29,13 +29,14 @@ describe file('/opt/tomcat') do
   it { should be_a_directory }
 end
 
-describe file('opt/tomcat/conf') do
+describe file('/opt/tomcat/conf') do
   it { should exist }
-  it { should be_mode 70}
+  it { should be_mode 0070}
 end
 
-%w[ webapps work temp logs].each do
+%w[ webapps work temp logs].each do |path|
   describe file("/opt/tomcat/#{path}") do
     it { should exist }
     it { should be_owned_by 'tomcat'}
+  end
 end
